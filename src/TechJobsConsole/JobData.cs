@@ -52,7 +52,10 @@ namespace TechJobsConsole
 
                     if (aValue.ToLower().Contains(value.ToLower()))
                     {
-                        jobz.Add(row);
+                        if(!jobz.Contains(row))
+                        {
+                            jobz.Add(row);
+                        }
                     }
                 }
             }

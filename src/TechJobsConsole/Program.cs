@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace TechJobsConsole
 {
@@ -36,11 +37,17 @@ namespace TechJobsConsole
 
                     if (columnChoice.Equals("all"))
                     {
-                        PrintJobs(JobData.FindAll());
+                        List<Dictionary<string, string>> searchResults = JobData.FindAll();                        
+                        searchResults = searchResults.OrderBy(str => str["name"]).ToList();
+                        PrintJobs(searchResults);
                     }
                     else
                     {
                         List<string> results = JobData.FindAll(columnChoice);
+
+                        //results.Sort();
+                        //results = results.OrderBy(str => str).ToList();
+                        //results = results.OrderByDescending(str => str).ToList();
 
                         Console.WriteLine("\n*** All " + columnChoices[columnChoice] + " Values ***");
                         foreach (string item in results)
@@ -64,11 +71,13 @@ namespace TechJobsConsole
                     if (columnChoice.Equals("all"))
                     {
                         searchResults = JobData.FindByValue(searchTerm);
+                        searchResults = searchResults.OrderBy(str => str["name"]).ToList();
                         PrintJobs(searchResults);
                     }
                     else
                     {
                         searchResults = JobData.FindByColumnAndValue(columnChoice, searchTerm);
+                        searchResults = searchResults.OrderBy(str => str["name"]).ToList();
                         PrintJobs(searchResults);
                     }
                 }
@@ -119,6 +128,7 @@ namespace TechJobsConsole
 
         private static void PrintJobs(List<Dictionary<string, string>> someJobs)
         {
+            //someJobs.Sort();
             if (someJobs.Count == 0)
             {
                 Console.WriteLine("Invalid, no results found!");
@@ -126,12 +136,12 @@ namespace TechJobsConsole
             } 
             foreach (Dictionary<string, string> job in someJobs)
             {
-                string job1 = "******************************************************************\n";
+                string job1 = "*****\n";
                 foreach (string entry in job.Keys)
                 {
                     job1 += (entry + ":" + job[entry] + "\n");
                 }
-                job1 += "************************************************************************";
+                job1 += "*****\n";
                 Console.WriteLine(job1);
                 
             }
